@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+div {
+  background-color: #ffffff;
+}
+table, th, td {
+  border: 2px solid #f5821f;
+  border-collapse: collapse;
+  border-style: groove;
+  
+}
+th, td {
+  padding: 15px;
+}
+p {
+  font-size:12.0pt;font-family:"Helvetica",sans-serif;
+}
+</style>
+</head>
+<body back>
+<div>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<p style="text-align: justify;">Namaskara [Name],</p>
+<p style="text-align: justify;">Many thanks for joining hands in Nilaya Foundation's vidya daana initiative. Your contribution has helped deserving, poor and meritorious students. This year Nilaya Foundation awarded <strong>Rs 24.74 lakh</strong>s worth scholarships to more than <strong>221 (1st Phase : 188, 2nd Phase : 33) </strong>students.</p>
+<p style="text-align: justify;"><strong>This was possible only with your generous contribution.</strong></p>
+<p style="text-align: justify;">Nilaya family wishes to thank you and your family for this noble act. We sincerely hope that similar help and contribution will continue in future. Feel free to reach out to us for further information.</p>
+<p style="text-align: justify;">Please find attached receipt of your contribution.<br /><br /></p>
+<p style="text-align: justify;">Dhanyavada,<br />Nilaya Foundation,<br />9448064123<br />9980541495</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>
