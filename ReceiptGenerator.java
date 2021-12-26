@@ -71,10 +71,10 @@ public class ReceiptGenerator {
 
 	public static final char[] PASSWORD = "password".toCharArray();
 	public static int RECEIPT_NUMBER =1;
-	public static String dest = "F:/Study/NilayaFoundation/2020-21/";
+	public static String dest = "D:/Receipt/recieptGenerator-main/2020-21/";
 	public static String strHeader ="Name,PAN,Mobile,Email,VolunteerEmail,2020 Trxn Date,2020,Reciept";
 	public static float bodyTextSize = 14;
-	public static String masterFileLocation ="F:/Study/NilayaFoundation/2020-21/DonorMasterList.csv";
+	public static String masterFileLocation ="D:/Receipt/recieptGenerator-main/DonorMasterList_final.csv";
 	public static void main(String[] args)
 	{
 		try
@@ -83,7 +83,7 @@ public class ReceiptGenerator {
 			BufferedWriter bWriter = new BufferedWriter(new FileWriter(donorOutputFile));
 			bWriter.write(strHeader+"\n");
 			List<HashMap> donorDataList = readMasterFile();
-
+			System.out.println(donorDataList);
 			for (int i = 0; i < donorDataList.size(); i++) {
 				Map donorMap = donorDataList.get(i);
 				String name=(String)donorMap.get("name");
@@ -154,7 +154,7 @@ public class ReceiptGenerator {
 	private static String generatePdf(String name, String mobileNumber, String emailAddress, String pan,
 			String strDonationAmount, String dateReceived, String scheme) throws FileNotFoundException, IOException, Exception {
 		 
-		String strFileName=name+".pdf";
+		String strFileName=name+"_"+mobileNumber+".pdf";
 		String destSigned = "D:/temp/"+name+"_signed.pdf"; 
 		File destFile = new File(dest+strFileName);
 //		if(destFile.exists()) {

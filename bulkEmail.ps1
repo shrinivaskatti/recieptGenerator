@@ -6,7 +6,7 @@ param(
 	 [Parameter(Mandatory=$true)][string]$importFile  
 
 )
-$importFile     = "F:\Study\NilayaFoundation\2020-21\donorOutput.csv"
+$importFile     = "D:\Receipt\recieptGenerator-main\2020-21\donorOutput.csv"
 
 $users = import-csv $importFile | select *
 foreach($user in $users)
@@ -24,26 +24,27 @@ foreach($user in $users)
 	
 			if([string]::IsNullOrEmpty($VolunteerEmail)){
 			
-				Write-Host "Email address not found for" $Name"."
+				Write-Host "[SKIP]Email address not found for" $Name"."
 			}else{
-				$to = $VolunteerEmail
+				#Uncomeent this if Volunteer needs to be notified of donor email not present.
+				#$to = $VolunteerEmail
 			}
 	}
 	if([string]::IsNullOrEmpty($to)){
-	 Write-Host "Skipping Donor :" $Name "."
+	 Write-Host "[SKIP]Skipping Donor :" $Name "."
 	}else{
 		
 		
 		
-		$write = "Emailing account " + $to + " ..."
+		$write = "[INFO]Emailing account " + $to + " ..."
 		Write-Host $write
-		Write-Host $Reciept
+		#Write-Host $Reciept
 		$body = [string]::join([environment]::newline, (Get-Content -path $emailContent))
 
 		$body = $body.Replace('[Name]', $Name)
 
 		$mail = New-Object System.Net.Mail.MailMessage 
-		#$mail.From = "shrinivaskattiaws@gmail.com" 
+		
 		$mail.From = $email 
 		
 		<#if($recipientType -eq "To")
@@ -58,10 +59,12 @@ foreach($user in $users)
 		}#>
 		
 		$mail.To.Add($to)
-		$mail.Cc.Add($VolunteerEmail)
+		if($VolunteerEmail){
+			$mail.Cc.Add($VolunteerEmail)
+		}
 		#$mail.Bcc.Add("shrinivaskattiaws@gmail.com")
 		<#$mail.To.Add($to2)#>
-		$mail.Subject = "Test Email : With Content"
+		$mail.Subject = "Nilaya Foundation : Scholarship 2021"
 		$mail.IsBodyHtml = $true
 		$mail.Body = $body
 		$attach = New-Object System.Net.Mail.Attachment($Reciept) 
