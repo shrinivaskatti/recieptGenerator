@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -71,10 +72,11 @@ public class ReceiptGenerator {
 
 	public static final char[] PASSWORD = "password".toCharArray();
 	public static int RECEIPT_NUMBER =1;
-	public static String dest = "D:/Receipt/recieptGenerator-main/2020-21/";
+	public static String dest = "C:/Users/shkatti/pvnDocs/2021-22/";
 	public static String strHeader ="Name,PAN,Mobile,Email,VolunteerEmail,2020 Trxn Date,2020,Reciept";
 	public static float bodyTextSize = 14;
-	public static String masterFileLocation ="D:/Receipt/recieptGenerator-main/DonorMasterList_final.csv";
+	public static String masterFileLocation ="C:/Users/shkatti/pvnDocs/2021-22/DonorMasterList_2021_1.csv";
+	public  static final String logoImage = "C:/Users/shkatti/pvn/genereator/src/main/resources/Nilaya1.jpg"; 
 	public static void main(String[] args)
 	{
 		try
@@ -122,6 +124,7 @@ public class ReceiptGenerator {
 			br.readLine();
 			while ((line = br.readLine()) != null)   //returns a Boolean value  
 			{  
+				System.out.println(line);
 				String[]data =  line.split(",");
 				System.out.println("DataLength=> "+data.length);
 				donorData = new HashMap<String, String>();
@@ -176,41 +179,57 @@ public class ReceiptGenerator {
 
 		addWatermark(pdfDoc, document);
 		
+		addLogo(document);
 		
+		PdfPage page = pdfDoc.getPage(1);
+		Rectangle cropBox = page.getCropBox();
+		Rectangle mediaBox = page.getMediaBox();
+		
+		page.setCropBox(new Rectangle(0, 350, 600, 500));
+
 		PdfCanvas  canvas = new PdfCanvas(pdfDoc, 1);
 		canvas.rectangle(10, 10, 400, 600);
 		canvas.saveState();
+		
 		document.close();
 		return strFileName;
 	}
 
+	private static void addLogo(Document document) {
+		
+		try {
+			      
+			ImageData data = ImageDataFactory.create(logoImage);              
+
+			// Creating an Image object        
+			Image image = new Image(data);   
+			image.scale(0.03f, 0.03f);
+			image.setFixedPosition(60, PageSize.A4.getHeight() - image.getImageScaledHeight() - 30);
+			
+			// Adding image to the document       
+			document.add(image);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}              
+		
+	}
+
 	private static void addWatermark(PdfDocument pdfDoc, Document document) throws Exception {
-		
+
 		PdfCanvas over = new PdfCanvas(pdfDoc.getPage(1));
-		
-		
-		
 		Paragraph paragraph = new Paragraph("NILAYA FOUNDATION")
 				.setFont(PdfFontFactory.createFont(StandardFonts.TIMES_BOLD))
-		        .setFontSize(50);
-		 PdfExtGState gs1 = new PdfExtGState().setFillOpacity(0.1f);
-		PdfPage pdfPage = pdfDoc.getPage(1);
-		Rectangle pageSize = pdfPage.getPageSizeWithRotation();
-		
-		// When "true": in case the page has a rotation, then new content will be automatically rotated in the
-		// opposite direction. On the rotated page this would look as if new content ignores page rotation.
-		pdfPage.setIgnorePageRotationForContent(true);
-
-		float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
-		float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
-		System.out.println(x+" -- "+y);
-		
-		
-		
+				.setFontSize(50);
+		PdfExtGState gs1 = new PdfExtGState().setFillOpacity(0.1f);
 		over.saveState();
 		over.setExtGState(gs1);
-		document.showTextAligned(paragraph, x, 590, 1, TextAlignment.CENTER, VerticalAlignment.TOP, 0);
-		//document.showTextAligned(paragraph, x, y, 1, TextAlignment.CENTER, VerticalAlignment.TOP, -1);
+		      
+		ImageData data = ImageDataFactory.create(logoImage);              
+		Image image = new Image(data);   
+		image.scale(0.13f, 0.13f);
+		image.setFixedPosition((PageSize.A4.getWidth() - image.getImageScaledWidth())/2, (PageSize.A4.getHeight() - 30)/2 );
+		document.add(image);
 		over.restoreState();
 	}
 
